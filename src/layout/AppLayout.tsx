@@ -1,8 +1,8 @@
 ﻿// src/layouts/AppLayout.tsx
 import { Outlet } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/ui/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
+import {SiteHeader} from "@/components/site-header/site-header.tsx";
+import {AppSidebar} from "@/components/app-side-bar/app-sidebar.tsx";
 
 export default function AppLayout() {
     return (

@@ -1,6 +1,7 @@
 ﻿import React, { useState } from "react";
-import { signup } from "../api/auth";
+
 import { useNavigate, Link } from "react-router-dom";
+import {signup} from "@/api/auth.ts";
 
 export const SignUp = () => {
     const [username, setUsername] = useState("");

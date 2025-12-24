@@ -1,4 +1,4 @@
-﻿import { getMe } from "../api/auth";
+﻿import { getMe } from "@/api/auth";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 

@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from "react";
-import { passwordReset } from "../api/auth";
+import { passwordReset } from "@/api/auth";
 import { useNavigate } from "react-router-dom";
 
 export const ResetPassword = () => {

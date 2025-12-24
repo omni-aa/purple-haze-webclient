@@ -1,5 +1,5 @@
 ﻿import React, { useState } from "react";
-import { passwordResetRequest } from "../api/auth";
+import { passwordResetRequest } from "@/api/auth";
 
 export const ForgotPassword = () => {
     const [email, setEmail] = useState(""); // ✅ collect email, not username
