@@ -1,116 +1,323 @@
-﻿import { Github, Mail, Twitch, Twitter, ExternalLink } from "lucide-react";
+﻿import { Github, Mail, Twitch, Twitter, ExternalLink, ArrowRight, Heart, Sparkles, Globe, Shield, Rocket, Users, Star, Zap, Palette } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Footer = () => {
+    const [email, setEmail] = useState("");
+    const [subscribed, setSubscribed] = useState(false);
+
+    const handleSubscribe = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (email) {
+            console.log("Subscribed:", email);
+            setSubscribed(true);
+            setEmail("");
+            setTimeout(() => setSubscribed(false), 3000);
+        }
+    };
+
+    const socialLinks = [
+        { icon: Github, href: "https://github.com/auroraproject", label: "GitHub", color: "hover:bg-gray-800", glow: "hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]" },
+        { icon: Twitter, href: "https://twitter.com/auroraproject", label: "Twitter", color: "hover:bg-blue-500", glow: "hover:shadow-[0_0_20px_rgba(29,161,242,0.4)]" },
+        { icon: Twitch, href: "https://twitch.tv/auroraproject", label: "Twitch", color: "hover:bg-purple-600", glow: "hover:shadow-[0_0_20px_rgba(145,70,255,0.4)]" },
+        { icon: Mail, href: "mailto:contact@projariel.com", label: "Email", color: "hover:bg-gradient-to-br hover:from-red-500 hover:to-orange-500", glow: "hover:shadow-[0_0_20px_rgba(255,87,34,0.4)]" },
+    ];
+
+    const quickLinks = [
+        { to: "/", label: "Home", icon: Rocket },
+        { to: "/news", label: "News", icon: Sparkles },
+        { to: "/explore", label: "Explore", icon: Globe },
+        { to: "/community", label: "Community", icon: Users },
+        { to: "/features", label: "Features", icon: Zap },
+        { to: "/gallery", label: "Gallery", icon: Palette },
+    ];
+
+    const resourceLinks = [
+        { to: "/about", label: "About Us", icon: Users },
+        { to: "/privacy", label: "Privacy Policy", icon: Shield },
+        { to: "/terms", label: "Terms of Service", icon: Shield },
+        { to: "/contact", label: "Contact Us", icon: Mail },
+        { to: "/docs", label: "Documentation", icon: ExternalLink },
+        { to: "/support", label: "Support", icon: Heart },
+    ];
+
     return (
-        <footer className="relative bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-900 text-gray-200 overflow-hidden">
-            {/* Decorative Glow */}
-            <div className="absolute inset-0">
-                <div className="absolute -bottom-20 -left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl" />
-                <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-400/10 rounded-full blur-3xl" />
+        <footer className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-black text-gray-300 overflow-hidden border-t border-gray-800/50">
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 overflow-hidden">
+                {/* Grid Pattern */}
+                <div className="absolute inset-0 opacity-5"
+                     style={{
+                         backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                                        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                         backgroundSize: '50px 50px'
+                     }}
+                />
+
+                {/* Animated Orbs */}
+                <div className="absolute -top-20 -left-20 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute -bottom-40 right-0 w-80 h-80 bg-gradient-to-tr from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+
+                {/* Floating Particles */}
+                {[...Array(15)].map((_, i) => (
+                    <div
+                        key={i}
+                        className="absolute w-1 h-1 bg-white/30 rounded-full"
+                        style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            animation: `float ${3 + Math.random() * 4}s infinite ease-in-out`,
+                            animationDelay: `${Math.random() * 5}s`
+                        }}
+                    />
+                ))}
             </div>
 
-            <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
-                {/* Upper Section */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-                    {/* Brand */}
-                    <div className="lg:col-span-2">
-                        <div className="flex items-center space-x-3 mb-5">
-                            <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-700/30">
-                                <span className="text-white font-bold text-xl">PA</span>
+            {/* Main Content */}
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+                {/* Top Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-16">
+                    {/* Brand & Description */}
+                    <div className="space-y-8">
+                        <div className="flex items-center space-x-4 group">
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl blur-lg opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="relative w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-blue-500/30 group-hover:shadow-purple-500/40 transition-all duration-500 group-hover:scale-105">
+                                    <span className="text-white font-bold text-2xl">PA</span>
+                                    <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-yellow-400 animate-spin" style={{ animationDuration: '3s' }} />
+                                </div>
                             </div>
-                            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-purple-300">
-                                Proj-Ariel
-                            </h2>
+                            <div>
+                                <h2 className="text-4xl lg:text-5xl font-bold">
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
+                                        Proj-Ariel
+                                    </span>
+                                </h2>
+                                <p className="text-lg text-gray-400 mt-2">Redefining Digital Experiences</p>
+                            </div>
                         </div>
-                        <p className="text-gray-300 leading-relaxed max-w-lg text-sm md:text-base">
-                            Empowering adventurers with cutting-edge tools and innovative solutions.
-                            We build the future of interactive experiences.
+
+                        <p className="text-gray-400 leading-relaxed text-lg max-w-2xl">
+                            We're pioneering the next generation of interactive tools and platforms.
+                            Join thousands of creators building extraordinary digital experiences.
                         </p>
 
-                        <div className="flex space-x-4 mt-8">
-                            {[
-                                { icon: Mail, href: "mailto:contact@auroraproject.com", label: "Email" },
-                                { icon: Github, href: "https://github.com/auroraproject", label: "GitHub" },
-                                { icon: Twitch, href: "https://twitch.tv/auroraproject", label: "Twitch" },
-                                { icon: Twitter, href: "https://twitter.com/auroraproject", label: "Twitter" },
-                            ].map(({ icon: Icon, href, label }) => (
-                                <a
-                                    key={label}
-                                    href={href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-11 h-11 bg-indigo-800/40 hover:bg-indigo-700/70 backdrop-blur-md rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(139,92,246,0.4)] group"
-                                    aria-label={label}
-                                >
-                                    <Icon size={18} className="text-gray-300 group-hover:text-white" />
-                                </a>
-                            ))}
+                        {/* Social Links */}
+                        <div className="space-y-4">
+                            <p className="text-gray-400 font-medium">Follow Our Journey</p>
+                            <div className="flex flex-wrap gap-3">
+                                {socialLinks.map(({ icon: Icon, href, label, color, glow }) => (
+                                    <a
+                                        key={label}
+                                        href={href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`
+                                            relative group flex items-center gap-2 px-4 py-3 
+                                            bg-gray-900/50 backdrop-blur-sm rounded-xl 
+                                            border border-gray-800 hover:border-transparent
+                                            transition-all duration-300 hover:scale-105
+                                            ${color} ${glow}
+                                        `}
+                                    >
+                                        <Icon size={18} className="text-gray-400 group-hover:text-white" />
+                                        <span className="text-sm font-medium">{label}</span>
+                                        <ArrowRight size={14} className="ml-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                                    </a>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    {/* Navigation */}
-                    <div>
-                        <h3 className="text-lg font-semibold text-white mb-5 flex items-center">
-                            Navigation
-                            <ExternalLink size={16} className="ml-2 opacity-70" />
-                        </h3>
-                        <nav className="space-y-3 text-sm">
-                            {[
-                                { to: "/", label: "Home" },
-                                { to: "/News", label: "News" },
-                                { to: "/Explore", label: "Explore" },
+                    {/* Newsletter & Quick Links */}
+                    <div className="space-y-8">
+                        {/* Newsletter */}
+                        <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-800/50 shadow-xl">
+                            <div className="flex items-center gap-3 mb-4">
+                                <Mail className="w-6 h-6 text-blue-400" />
+                                <h3 className="text-xl font-bold text-white">Stay Updated</h3>
+                            </div>
+                            <p className="text-gray-400 mb-6">
+                                Get exclusive updates, early access, and insider insights delivered to your inbox.
+                            </p>
+                            <form onSubmit={handleSubscribe} className="space-y-4">
+                                <div className="relative">
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="Enter your email"
+                                        className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-500"
+                                        required
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="absolute right-2 top-2 px-4 py-1.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center gap-2"
+                                    >
+                                        {subscribed ? 'Subscribed!' : 'Subscribe'}
+                                        <ArrowRight size={16} className={subscribed ? 'hidden' : 'block'} />
+                                    </button>
+                                </div>
+                                <p className="text-xs text-gray-500">
+                                    By subscribing, you agree to our Privacy Policy and consent to receive updates.
+                                </p>
+                            </form>
+                        </div>
 
-                            ].map(({ to, label }) => (
+                        {/* Stats */}
+                        <div className="grid grid-cols-3 gap-4">
+                            <div className="text-center p-4 bg-gray-900/30 rounded-xl border border-gray-800/50">
+                                <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">10K+</div>
+                                <div className="text-xs text-gray-400 mt-1">Active Users</div>
+                            </div>
+                            <div className="text-center p-4 bg-gray-900/30 rounded-xl border border-gray-800/50">
+                                <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">500+</div>
+                                <div className="text-xs text-gray-400 mt-1">Projects</div>
+                            </div>
+                            <div className="text-center p-4 bg-gray-900/30 rounded-xl border border-gray-800/50">
+                                <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">99%</div>
+                                <div className="text-xs text-gray-400 mt-1">Satisfaction</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Links Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    {/* Quick Links */}
+                    <div>
+                        <div className="flex items-center gap-3 mb-6">
+                            <Rocket className="w-5 h-5 text-blue-400" />
+                            <h3 className="text-lg font-bold text-white">Quick Links</h3>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            {quickLinks.map(({ to, label, icon: Icon }) => (
                                 <Link
                                     key={label}
                                     to={to}
-                                    className="block text-gray-400 hover:text-white hover:translate-x-1 transition-all duration-200"
+                                    className="group flex items-center gap-3 p-3 rounded-lg bg-gray-900/30 hover:bg-gray-800/50 border border-gray-800/50 hover:border-blue-500/50 transition-all duration-300"
                                 >
-                                    {label}
+                                    <Icon size={16} className="text-gray-500 group-hover:text-blue-400" />
+                                    <span className="text-sm font-medium text-gray-400 group-hover:text-white">
+                                        {label}
+                                    </span>
                                 </Link>
                             ))}
-                        </nav>
+                        </div>
                     </div>
 
                     {/* Resources */}
                     <div>
-                        <h3 className="text-lg font-semibold text-white mb-5">Resources</h3>
-                        <nav className="space-y-3 text-sm">
-                            {[
-                                { to: "/about-us", label: "About Us" },
-                                { to: "/privacy-policy", label: "Privacy Policy" },
-                                { to: "/contact-us", label: "Contact Us" },
-                            ].map(({ to, label }) => (
+                        <div className="flex items-center gap-3 mb-6">
+                            <Shield className="w-5 h-5 text-purple-400" />
+                            <h3 className="text-lg font-bold text-white">Resources</h3>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            {resourceLinks.map(({ to, label, icon: Icon }) => (
                                 <Link
                                     key={label}
                                     to={to}
-                                    className="block text-gray-400 hover:text-white hover:translate-x-1 transition-all duration-200"
+                                    className="group flex items-center gap-3 p-3 rounded-lg bg-gray-900/30 hover:bg-gray-800/50 border border-gray-800/50 hover:border-purple-500/50 transition-all duration-300"
                                 >
-                                    {label}
+                                    <Icon size={16} className="text-gray-500 group-hover:text-purple-400" />
+                                    <span className="text-sm font-medium text-gray-400 group-hover:text-white">
+                                        {label}
+                                    </span>
                                 </Link>
                             ))}
-                        </nav>
+                        </div>
+                    </div>
+
+                    {/* Tech Stack */}
+                    <div>
+                        <div className="flex items-center gap-3 mb-6">
+                            <Zap className="w-5 h-5 text-yellow-400" />
+                            <h3 className="text-lg font-bold text-white">Powered By</h3>
+                        </div>
+                        <div className="grid grid-cols-3 gap-3">
+                            {['React', 'TypeScript', 'Tailwind', 'Node.js', 'Vite', 'PostgreSQL'].map((tech) => (
+                                <div
+                                    key={tech}
+                                    className="text-center p-3 rounded-lg bg-gray-900/30 border border-gray-800/50 hover:border-yellow-500/50 transition-all duration-300 group"
+                                >
+                                    <div className="text-xs font-semibold text-gray-400 group-hover:text-yellow-400">{tech}</div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
-                {/* Divider */}
-                <div className="border-t border-indigo-800/50 my-6"></div>
+                {/* Divider with Gradient */}
+                <div className="relative my-12">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-800"></div>
+                    </div>
+                    <div className="relative flex justify-center">
+                        <div className="px-6 bg-gradient-to-r from-transparent via-gray-900 to-transparent">
+                            <Star className="w-6 h-6 text-blue-400 animate-pulse" />
+                        </div>
+                    </div>
+                </div>
 
                 {/* Bottom Bar */}
-                <div className="flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm space-y-4 md:space-y-0">
-                    <div>
-                        © {new Date().getFullYear()}{" "}
-                        <span className="text-white font-medium">Proj-Ariel</span>. All rights reserved.
+                <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                    {/* Copyright */}
+                    <div className="text-center md:text-left">
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                <span className="text-white font-bold text-sm">PA</span>
+                            </div>
+                            <div>
+                                <p className="text-gray-400">
+                                    © {new Date().getFullYear()} <span className="font-semibold text-white">Proj-Ariel</span>. All rights reserved.
+                                </p>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Made with <Heart className="inline w-3 h-3 text-red-500 fill-current" /> worldwide
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="flex flex-wrap justify-center md:justify-end items-center gap-3">
-                        <span>Built with 💜 Passion</span>
-                        <span className="opacity-50">•</span>
-                        <span className="opacity-50">•</span>
-                        <span>Community Driven</span>
+
+                    {/* Badges */}
+                    <div className="flex flex-wrap justify-center gap-3">
+                        <div className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-900/30 to-blue-800/20 border border-blue-800/30 text-sm font-medium text-blue-300">
+                            🚀 Production Ready
+                        </div>
+                        <div className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-900/30 to-purple-800/20 border border-purple-800/30 text-sm font-medium text-purple-300">
+                            🔐 Secure & Reliable
+                        </div>
+                        <div className="px-4 py-2 rounded-full bg-gradient-to-r from-green-900/30 to-green-800/20 border border-green-800/30 text-sm font-medium text-green-300">
+                            🌐 Open Source
+                        </div>
                     </div>
+
+                    {/* Back to Top */}
+                    <button
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-900/50 border border-gray-800 hover:border-blue-500/50 hover:bg-gray-800/50 transition-all duration-300"
+                    >
+                        <span className="text-sm text-gray-400 group-hover:text-white">Back to Top</span>
+                        <ArrowRight size={14} className="text-gray-500 group-hover:text-blue-400 rotate-90" />
+                    </button>
                 </div>
             </div>
+
+            {/* Floating Action Button */}
+            <button className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-2xl shadow-blue-500/30 hover:shadow-purple-500/40 transition-all duration-300 hover:scale-110 group">
+                <span className="text-white font-bold">💬</span>
+                <div className="absolute -top-12 right-0 px-3 py-2 bg-gray-900 rounded-lg text-xs font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                    Need help? Chat with us
+                </div>
+            </button>
+
+            {/* CSS for floating animation */}
+            <style jsx>{`
+                @keyframes float {
+                    0%, 100% { transform: translateY(0) translateX(0); }
+                    50% { transform: translateY(-20px) translateX(10px); }
+                }
+            `}</style>
         </footer>
     );
 };
