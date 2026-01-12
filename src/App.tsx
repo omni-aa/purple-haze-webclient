@@ -26,7 +26,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
 
-                    {/* 🌐 PUBLIC WEBSITE (Navbar) */}
+                    {/* 🌐 PUBLIC WEBSITE (navbar) */}
                     <Route element={<PublicLayout />}>
                         <Route path="/" element={<MainPage />} />
                         <Route path={ROUTE_PATHS.AUTH.SIGN_IN} element={<SignIn />} />

@@ -209,7 +209,7 @@ export function AppSidebar() {
                 </SidebarGroup>
             </SidebarContent>
 
-            {/* User Profile Footer */}
+            {/* User Profile footer */}
             <SidebarFooter className="border-t py-8">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
