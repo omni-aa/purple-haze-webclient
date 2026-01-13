@@ -12,6 +12,7 @@ export const ROUTE_PATHS = {
         DASHBOARD: "/dashboard",
         PROFILE: "/profile",
         TEST: "/test",
+        SETTINGS: "/settings",
     },
     AUTH: {
         SIGN_IN: "/signin",

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useRef, FormEvent } from "react";
+﻿import {useEffect, useState, useRef, type FormEvent} from "react";
 import {
     Link,
     NavLink,
@@ -28,7 +28,8 @@ import {
     TrendingUp,
     BookOpen,
     FileText,
-    ChevronRight, // Added missing import
+    ChevronRight,
+    type LucideIcon,
 } from "lucide-react";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -36,10 +37,17 @@ import { ModeToggle } from "@/components/dark-mode-toggle.tsx";
 import { ROUTE_PATHS } from "@/routes.ts";
 import { Button } from "@/components/ui/button";
 
+// Define navigation item type
+type NavigationItem = {
+    path: string;
+    label: string;
+    icon: LucideIcon;
+};
+
 // Mock search data - replace with your actual data or API
 const mockSearchResults = [
     { id: 1, title: "Getting Started Guide", category: "Documentation", path: "/docs/getting-started", icon: BookOpen },
-    { id: 2, title: "Project Dashboard", category: "Features", path: "/features/dashboard", icon: LayoutDashboard },
+    { id: 2, title: "Project Profile", category: "Features", path: "/features/profile", icon: LayoutDashboard },
     { id: 3, title: "Team Collaboration", category: "Features", path: "/features/team", icon: Globe },
     { id: 4, title: "API Documentation", category: "Documentation", path: "/docs/api", icon: FileText },
     { id: 5, title: "Recent Updates", category: "Blog", path: "/blog/updates", icon: Newspaper },
@@ -50,7 +58,7 @@ const mockSearchResults = [
 
 // Mock recent searches
 const mockRecentSearches = [
-    "dashboard setup",
+    "profile setup",
     "team management",
     "API integration",
     "project templates",
@@ -88,7 +96,6 @@ const SearchOverlay = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         setIsLoading(true);
         setShowResults(true);
 
-        // Simulate API delay
         setTimeout(() => {
             const filteredResults = mockSearchResults.filter(item =>
                 item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -125,20 +132,18 @@ const SearchOverlay = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
     if (!isOpen) return null;
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-background/95 dark:bg-background-dark/95 backdrop-blur-md z-50"
-            onClick={onClose}
+        <div className="fixed inset-0 bg-background/95 dark:bg-background-dark/95 backdrop-blur-md z-50 transition-opacity duration-200"
+             style={{ opacity: isOpen ? 1 : 0 }}
+             onClick={onClose}
         >
             <div className="container mx-auto px-4 pt-20">
-                <motion.div
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -20, opacity: 0 }}
-                    className="max-w-3xl mx-auto"
-                    onClick={(e) => e.stopPropagation()}
+
+                <div className="max-w-3xl mx-auto transition-all duration-200 ease-out"
+                     style={{
+                         transform: isOpen ? 'translateY(0)' : 'translateY(-20px)',
+                         opacity: isOpen ? 1 : 0
+                     }}
+                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* Search Input */}
                     <form onSubmit={handleSearch} className="relative group">
@@ -179,14 +184,9 @@ const SearchOverlay = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                     </form>
 
                     {/* Search Results */}
-                    <AnimatePresence>
+                    <div className="mt-6">
                         {showResults ? (
-                            <motion.div
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="mt-6 bg-background dark:bg-background-dark rounded-xl border border-border/50 dark:border-border-dark/50 shadow-xl overflow-hidden"
-                            >
+                            <div className="bg-background dark:bg-background-dark rounded-xl border border-border/50 dark:border-border-dark/50 shadow-xl overflow-hidden transition-all duration-200">
                                 <div className="p-4 border-b border-border/30 dark:border-border-dark/30">
                                     <div className="flex items-center justify-between">
                                         <h3 className="font-semibold text-foreground/80">
@@ -242,14 +242,9 @@ const SearchOverlay = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                                         </p>
                                     </div>
                                 )}
-                            </motion.div>
+                            </div>
                         ) : searchQuery.length === 0 ? (
-                            <motion.div
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="mt-6 bg-background dark:bg-background-dark rounded-xl border border-border/50 dark:border-border-dark/50 shadow-xl overflow-hidden"
-                            >
+                            <div className="bg-background dark:bg-background-dark rounded-xl border border-border/50 dark:border-border-dark/50 shadow-xl overflow-hidden transition-all duration-200">
                                 <div className="p-4 border-b border-border/30 dark:border-border-dark/30">
                                     <h3 className="font-semibold text-foreground/80">Recent Searches</h3>
                                 </div>
@@ -289,9 +284,9 @@ const SearchOverlay = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                                         </div>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </div>
                         ) : null}
-                    </AnimatePresence>
+                    </div>
 
                     {/* Search Tips */}
                     <div className="mt-6 text-center">
@@ -311,9 +306,9 @@ const SearchOverlay = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                             </span>
                         </div>
                     </div>
-                </motion.div>
+                </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
@@ -373,7 +368,7 @@ const DesktopNavigation = ({
                                showActiveIndicator = false,
                                currentPath
                            }: {
-    items: Array<{ path: string; label: string; icon: any }>;
+    items: NavigationItem[];
     className?: string;
     showIcons?: boolean;
     showActiveIndicator?: boolean;
@@ -399,15 +394,7 @@ const DesktopNavigation = ({
                     {showIcons && <Icon size={16} className="shrink-0" />}
                     <span className="whitespace-nowrap">{item.label}</span>
                     {showActiveIndicator && currentPath === item.path && (
-                        <motion.span
-                            layoutId="desktopActiveIndicator"
-                            className="absolute -bottom-1 left-1/2 w-6 h-0.5 bg-primary rounded-full -translate-x-1/2"
-                            transition={{
-                                type: "spring",
-                                stiffness: 500,
-                                damping: 30,
-                            }}
-                        />
+                        <span className="absolute -bottom-1 left-1/2 w-6 h-0.5 bg-primary rounded-full -translate-x-1/2" />
                     )}
                 </NavLink>
             );
@@ -421,7 +408,7 @@ const MobileNavigation = ({
                               className = "",
                               showIcons = true
                           }: {
-    items: Array<{ path: string; label: string; icon: any }>;
+    items: NavigationItem[];
     onItemClick: () => void;
     className?: string;
     showIcons?: boolean;
@@ -482,7 +469,7 @@ const UserDropdown = ({ username, logout }: { username: string; logout: () => vo
         return username.charAt(0).toUpperCase();
     };
 
-    const userMenuItems = [
+    const userMenuItems: NavigationItem[] = [
         { label: "Dashboard", icon: LayoutDashboard, path: ROUTE_PATHS.APP.DASHBOARD },
         { label: "Profile", icon: UserCircle, path: ROUTE_PATHS.APP?.PROFILE || "/profile" },
         { label: "Settings", icon: Settings, path: ROUTE_PATHS.APP?.SETTINGS || "/settings" },
@@ -522,13 +509,7 @@ const UserDropdown = ({ username, logout }: { username: string; logout: () => vo
 
             <AnimatePresence>
                 {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute right-0 top-full mt-2 w-48 bg-background dark:bg-background-dark rounded-lg shadow-lg border border-border/50 dark:border-border-dark/50 py-1 z-50"
-                    >
+                    <div className="absolute right-0 top-full mt-2 w-48 bg-background dark:bg-background-dark rounded-lg shadow-lg border border-border/50 dark:border-border-dark/50 py-1 z-50">
                         {userMenuItems.map((item) => {
                             const Icon = item.icon;
                             return (
@@ -554,7 +535,7 @@ const UserDropdown = ({ username, logout }: { username: string; logout: () => vo
                             <LogOut size={16} />
                             Logout
                         </button>
-                    </motion.div>
+                    </div>
                 )}
             </AnimatePresence>
         </div>
@@ -565,17 +546,16 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
-    const [isTablet, setIsTablet] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const location = useLocation();
     const { isAuthenticated, username, logout } = useAuth();
+    const navbarRef = useRef<HTMLDivElement>(null);
 
     // Handle responsive breakpoints
     useEffect(() => {
         const handleResize = () => {
             const width = window.innerWidth;
             setIsMobile(width <= 768);
-            setIsTablet(width <= 1024);
         };
 
         handleResize();
@@ -583,11 +563,22 @@ const Navbar = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    // Handle scroll
+    // Handle scroll with throttling
     useEffect(() => {
+        let ticking = false;
+        let lastScrollY = 0;
+
         const onScroll = () => {
-            setScrolled(window.scrollY > 20);
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const currentScrollY = window.scrollY;
+                    setScrolled(currentScrollY > 20);
+                    ticking = false;
+                });
+                ticking = true;
+            }
         };
+
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
@@ -597,20 +588,63 @@ const Navbar = () => {
         setIsOpen(false);
     }, [location.pathname]);
 
+    // Prevent body scroll when mobile menu is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+            document.body.style.top = `-${window.scrollY}px`;
+        } else {
+            const scrollY = document.body.style.top;
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            document.body.style.top = '';
+            if (scrollY) {
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            }
+        }
+
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            document.body.style.top = '';
+        };
+    }, [isOpen]);
+
+    // Close mobile menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (isOpen && navbarRef.current && !navbarRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
+
     // Navigation configurations
-    const baseNavigation = [
+    const baseNavigation: NavigationItem[] = [
         { path: ROUTE_PATHS.PUBLIC.MAINPAGE, label: "Home", icon: Home },
         { path: ROUTE_PATHS.PUBLIC?.ABOUT || "/about", label: "About", icon: Info },
         { path: ROUTE_PATHS.PUBLIC?.FEATURES || "/features", label: "Features", icon: Globe },
     ];
 
-    const secondaryNavigation = [
+    const secondaryNavigation: NavigationItem[] = [
         { path: ROUTE_PATHS.PUBLIC?.BLOG || "/blog", label: "Blog", icon: Newspaper },
         { path: ROUTE_PATHS.PUBLIC?.CONTACT || "/contact", label: "Contact", icon: Contact },
         { path: ROUTE_PATHS.PUBLIC?.PRIVACY || "/privacy", label: "Privacy", icon: HatGlasses },
     ];
 
-    const authNavigation = isAuthenticated
+    const authNavigation: NavigationItem[] = isAuthenticated
         ? []
         : [
             { path: ROUTE_PATHS.AUTH?.SIGN_IN || "/signin", label: "Sign In", icon: User },
@@ -626,32 +660,34 @@ const Navbar = () => {
                 e.preventDefault();
                 setSearchOpen(true);
             }
-            if (e.key === '/' && !searchOpen) {
+            if (e.key === '/' && !searchOpen && !isOpen) {
                 e.preventDefault();
                 setSearchOpen(true);
+            }
+            if (e.key === 'Escape' && isOpen) {
+                setIsOpen(false);
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [searchOpen]);
+    }, [searchOpen, isOpen]);
 
     return (
-        <>
+        <div ref={navbarRef}>
+
             <header
                 className={cn(
-                    "sticky top-0 z-40 w-full transition-all duration-300",
+                    "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300",
                     scrolled
                         ? "bg-background/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-border/50 dark:border-border-dark/50 shadow-sm"
                         : "bg-background dark:bg-background-dark border-b border-transparent"
                 )}
             >
+                <div className="hidden md:flex items-center justify-center py-1.5 bg-gradient-to-r from-primary/10 to-primary/5 text-primary text-xs font-medium">
+                    🚀 Welcome to Project- PurpleHaze • Next-gen E-Sports platform
+                </div>
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* Top bar for announcements/banners */}
-                    <div className="hidden md:flex items-center justify-center py-1.5 bg-gradient-to-r from-primary/10 to-primary/5 text-primary text-xs font-medium">
-                        🚀 Welcome to Proj-Ariel • Next-gen project management platform
-                    </div>
-
                     <div className="flex items-center justify-between h-16 lg:h-20">
                         {/* Logo/Brand */}
                         <Link
@@ -702,7 +738,7 @@ const Navbar = () => {
                             {isAuthenticated ? (
                                 <UserDropdown username={username || ""} logout={logout} />
                             ) : (
-                                !isTablet && (
+                                !isMobile && (
                                     <div className="hidden lg:flex items-center gap-2">
                                         {authNavigation.map((item) => {
                                             const Icon = item.icon;
@@ -734,7 +770,7 @@ const Navbar = () => {
                                 aria-label="Toggle menu"
                                 aria-expanded={isOpen}
                                 onClick={() => setIsOpen(!isOpen)}
-                                className="lg:hidden p-2 rounded-lg hover:bg-muted/50 transition-colors relative z-10"
+                                className="lg:hidden p-2 rounded-lg hover:bg-muted/50 transition-colors relative z-50"
                             >
                                 {isOpen ? (
                                     <X size={22} />
@@ -744,173 +780,166 @@ const Navbar = () => {
                             </button>
                         </div>
                     </div>
-
-                    {/* Tablet Navigation (simplified) */}
-                    {isTablet && !isMobile && (
-                        <div className="hidden md:flex lg:hidden justify-center py-3 border-t border-border/30 dark:border-border-dark/30">
-                            <DesktopNavigation
-                                items={[...baseNavigation, ...secondaryNavigation.slice(0, 2)]}
-                                showIcons={false}
-                                currentPath={location.pathname}
-                                className="gap-1"
-                            />
-                        </div>
-                    )}
                 </div>
 
                 {/* Mobile Menu Overlay */}
-                <AnimatePresence>
-                    {isOpen && (
-                        <>
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                className="fixed inset-0 bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm z-40 lg:hidden"
-                                onClick={() => setIsOpen(false)}
-                            />
-                            <motion.div
-                                initial={{ x: "100%" }}
-                                animate={{ x: 0 }}
-                                exit={{ x: "100%" }}
-                                transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                                className="fixed inset-y-0 right-0 w-full max-w-sm bg-background dark:bg-background-dark border-l border-border/50 dark:border-border-dark/50 shadow-2xl z-50 lg:hidden overflow-y-auto"
-                            >
-                                <div className="p-6">
-                                    {/* Mobile header */}
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center">
-                                                <span className="text-white font-bold">PA</span>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-bold text-lg">Proj-Ariel</h3>
-                                                {isAuthenticated && username && (
-                                                    <p className="text-sm text-foreground/60">Hi, {username}!</p>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <button
-                                            onClick={() => setIsOpen(false)}
-                                            className="p-2 hover:bg-muted/50 rounded-lg"
-                                        >
-                                            <X size={22} />
-                                        </button>
+                <div className={cn(
+                    "lg:hidden fixed inset-0 z-40 transition-all duration-300 ease-in-out",
+                    isOpen
+                        ? "opacity-100 visible"
+                        : "opacity-0 invisible"
+                )}>
+                    {/* Backdrop */}
+                    <div
+                        className="absolute inset-0 bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm transition-opacity duration-300"
+                        style={{ opacity: isOpen ? 1 : 0 }}
+                        onClick={() => setIsOpen(false)}
+                    />
+
+                    {/* Menu Panel */}
+                    <div
+                        className="absolute top-0 right-0 h-full w-full max-w-sm bg-background dark:bg-background-dark border-l border-border/50 dark:border-border-dark/50 shadow-2xl overflow-y-auto transition-transform duration-300 ease-out"
+                        style={{
+                            transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+                            transitionDelay: isOpen ? '0s' : '0.1s'
+                        }}
+                    >
+                        <div className="p-6">
+                            {/* Mobile header */}
+                            <div className="flex items-center justify-between mb-8">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center">
+                                        <span className="text-white font-bold">PA</span>
                                     </div>
-
-                                    {/* Search in mobile menu */}
-                                    <div className="mb-6">
-                                        <button
-                                            onClick={() => {
-                                                setIsOpen(false);
-                                                setSearchOpen(true);
-                                            }}
-                                            className="w-full flex items-center gap-3 px-4 py-3 bg-muted/30 rounded-xl hover:bg-muted/50 transition-colors"
-                                        >
-                                            <Search className="text-foreground/40" size={18} />
-                                            <span className="text-foreground/70">Search...</span>
-                                            <kbd className="ml-auto px-2 py-1 text-xs bg-background rounded">/</kbd>
-                                        </button>
-                                    </div>
-
-                                    {/* Navigation sections */}
-                                    <div className="space-y-6">
-                                        <div>
-                                            <h4 className="text-xs font-semibold text-foreground/50 uppercase tracking-wider mb-3 px-2">
-                                                Main Menu
-                                            </h4>
-                                            <MobileNavigation
-                                                items={baseNavigation}
-                                                onItemClick={() => setIsOpen(false)}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <h4 className="text-xs font-semibold text-foreground/50 uppercase tracking-wider mb-3 px-2">
-                                                Discover
-                                            </h4>
-                                            <MobileNavigation
-                                                items={secondaryNavigation}
-                                                onItemClick={() => setIsOpen(false)}
-                                            />
-                                        </div>
-
-                                        {!isAuthenticated && (
-                                            <div>
-                                                <h4 className="text-xs font-semibold text-foreground/50 uppercase tracking-wider mb-3 px-2">
-                                                    Account
-                                                </h4>
-                                                <MobileNavigation
-                                                    items={authNavigation}
-                                                    onItemClick={() => setIsOpen(false)}
-                                                />
-                                            </div>
+                                    <div>
+                                        <h3 className="font-bold text-lg">Proj-Ariel</h3>
+                                        {isAuthenticated && username && (
+                                            <p className="text-sm text-foreground/60">Hi, {username}!</p>
                                         )}
-
-                                        {isAuthenticated && (
-                                            <div>
-                                                <h4 className="text-xs font-semibold text-foreground/50 uppercase tracking-wider mb-3 px-2">
-                                                    Your Account
-                                                </h4>
-                                                <div className="space-y-1">
-                                                    <Link
-                                                        to={ROUTE_PATHS.APP.DASHBOARD}
-                                                        onClick={() => setIsOpen(false)}
-                                                        className="flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium hover:bg-muted/50"
-                                                    >
-                                                        <LayoutDashboard size={18} />
-                                                        Dashboard
-                                                    </Link>
-                                                    <Link
-                                                        to={ROUTE_PATHS.APP?.PROFILE || "/profile"}
-                                                        onClick={() => setIsOpen(false)}
-                                                        className="flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium hover:bg-muted/50"
-                                                    >
-                                                        <UserCircle size={18} />
-                                                        Profile
-                                                    </Link>
-                                                    <button
-                                                        onClick={() => {
-                                                            logout();
-                                                            setIsOpen(false);
-                                                        }}
-                                                        className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20"
-                                                    >
-                                                        <LogOut size={18} />
-                                                        Logout
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Footer in mobile menu */}
-                                    <div className="mt-12 pt-6 border-t border-border/30">
-                                        <div className="flex flex-wrap gap-3 mb-4">
-                                            <Link to="/help" className="text-sm text-foreground/60 hover:text-foreground">
-                                                <HelpCircle size={16} className="inline mr-1" /> Help
-                                            </Link>
-                                            <Link to="/terms" className="text-sm text-foreground/60 hover:text-foreground">
-                                                Terms
-                                            </Link>
-                                            <Link to="/cookies" className="text-sm text-foreground/60 hover:text-foreground">
-                                                Cookies
-                                            </Link>
-                                        </div>
-                                        <p className="text-xs text-foreground/40 text-center">
-                                            © {new Date().getFullYear()} Proj-Ariel. All rights reserved.
-                                        </p>
                                     </div>
                                 </div>
-                            </motion.div>
-                        </>
-                    )}
-                </AnimatePresence>
+                                <button
+                                    onClick={() => setIsOpen(false)}
+                                    className="p-2 hover:bg-muted/50 rounded-lg"
+                                >
+
+                                </button>
+                            </div>
+
+                            {/* Search in mobile menu */}
+                            <div className="mb-6">
+                                <button
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        setTimeout(() => setSearchOpen(true), 300);
+                                    }}
+                                    className="w-full flex items-center gap-3 px-4 py-3 bg-muted/30 rounded-xl hover:bg-muted/50 transition-colors"
+                                >
+                                    <Search className="text-foreground/40" size={18} />
+                                    <span className="text-foreground/70">Search...</span>
+                                    <kbd className="ml-auto px-2 py-1 text-xs bg-background rounded">/</kbd>
+                                </button>
+                            </div>
+
+                            {/* Navigation sections */}
+                            <div className="space-y-6">
+                                <div>
+                                    <h4 className="text-xs font-semibold text-foreground/50 uppercase tracking-wider mb-3 px-2">
+                                        Main Menu
+                                    </h4>
+                                    <MobileNavigation
+                                        items={baseNavigation}
+                                        onItemClick={() => setIsOpen(false)}
+                                    />
+                                </div>
+
+                                <div>
+                                    <h4 className="text-xs font-semibold text-foreground/50 uppercase tracking-wider mb-3 px-2">
+                                        Discover
+                                    </h4>
+                                    <MobileNavigation
+                                        items={secondaryNavigation}
+                                        onItemClick={() => setIsOpen(false)}
+                                    />
+                                </div>
+
+                                {!isAuthenticated && (
+                                    <div>
+                                        <h4 className="text-xs font-semibold text-foreground/50 uppercase tracking-wider mb-3 px-2">
+                                            Account
+                                        </h4>
+                                        <MobileNavigation
+                                            items={authNavigation}
+                                            onItemClick={() => setIsOpen(false)}
+                                        />
+                                    </div>
+                                )}
+
+                                {isAuthenticated && (
+                                    <div>
+                                        <h4 className="text-xs font-semibold text-foreground/50 uppercase tracking-wider mb-3 px-2">
+                                            Your Account
+                                        </h4>
+                                        <div className="space-y-1">
+                                            <Link
+                                                to={ROUTE_PATHS.APP.DASHBOARD}
+                                                onClick={() => setIsOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium hover:bg-muted/50"
+                                            >
+                                                <LayoutDashboard size={18} />
+                                                Dashboard
+                                            </Link>
+                                            <Link
+                                                to={ROUTE_PATHS.APP?.PROFILE || "/profile"}
+                                                onClick={() => setIsOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium hover:bg-muted/50"
+                                            >
+                                                <UserCircle size={18} />
+                                                Profile
+                                            </Link>
+                                            <button
+                                                onClick={() => {
+                                                    logout();
+                                                    setIsOpen(false);
+                                                }}
+                                                className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20"
+                                            >
+                                                <LogOut size={18} />
+                                                Logout
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Footer in mobile menu */}
+                            <div className="mt-12 pt-6 border-t border-border/30">
+                                <div className="flex flex-wrap gap-3 mb-4">
+                                    <Link to="/help" className="text-sm text-foreground/60 hover:text-foreground">
+                                        <HelpCircle size={16} className="inline mr-1" /> Help
+                                    </Link>
+                                    <Link to="/terms" className="text-sm text-foreground/60 hover:text-foreground">
+                                        Terms
+                                    </Link>
+                                    <Link to="/cookies" className="text-sm text-foreground/60 hover:text-foreground">
+                                        Cookies
+                                    </Link>
+                                </div>
+                                <p className="text-xs text-foreground/40 text-center">
+                                    © {new Date().getFullYear()} Proj-Ariel. All rights reserved.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </header>
+
+            {/* Add padding to content when mobile menu is open */}
+            {isOpen && <div className="h-16" />}
 
             {/* Search Overlay Component */}
             <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
-        </>
+        </div>
     );
 };
 

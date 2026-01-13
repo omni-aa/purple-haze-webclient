@@ -1,6 +1,23 @@
-﻿import { Github, Mail, Twitch, Twitter, ExternalLink, ArrowRight, Heart, Sparkles, Globe, Shield, Rocket, Users, Star, Zap, Palette } from "lucide-react";
+﻿import {
+    Github,
+    Mail,
+    Twitch,
+    Twitter,
+    ExternalLink,
+    ArrowRight,
+    Heart,
+    Sparkles,
+    Globe,
+    Shield,
+    Rocket,
+    Users,
+    Star,
+    Zap,
+    Palette,
+    Youtube
+} from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const Footer = () => {
     const [email, setEmail] = useState("");
@@ -16,60 +33,66 @@ const Footer = () => {
         }
     };
 
-    const socialLinks = [
-        { icon: Github, href: "https://github.com/auroraproject", label: "GitHub", color: "hover:bg-gray-800", glow: "hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]" },
+    const socialLinks = useMemo(() => [
+        { icon: Youtube, href: "https://github.com/auroraproject", label: "YouTube", color: "hover:bg-red-900", glow: "hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]" },
         { icon: Twitter, href: "https://twitter.com/auroraproject", label: "Twitter", color: "hover:bg-blue-500", glow: "hover:shadow-[0_0_20px_rgba(29,161,242,0.4)]" },
         { icon: Twitch, href: "https://twitch.tv/auroraproject", label: "Twitch", color: "hover:bg-purple-600", glow: "hover:shadow-[0_0_20px_rgba(145,70,255,0.4)]" },
         { icon: Mail, href: "mailto:contact@projariel.com", label: "Email", color: "hover:bg-gradient-to-br hover:from-red-500 hover:to-orange-500", glow: "hover:shadow-[0_0_20px_rgba(255,87,34,0.4)]" },
-    ];
+    ], []);
 
-    const quickLinks = [
+    const quickLinks = useMemo(() => [
         { to: "/", label: "Home", icon: Rocket },
         { to: "/news", label: "News", icon: Sparkles },
         { to: "/explore", label: "Explore", icon: Globe },
         { to: "/community", label: "Community", icon: Users },
         { to: "/features", label: "Features", icon: Zap },
         { to: "/gallery", label: "Gallery", icon: Palette },
-    ];
+    ], []);
 
-    const resourceLinks = [
+    const resourceLinks = useMemo(() => [
         { to: "/about", label: "About Us", icon: Users },
         { to: "/privacy", label: "Privacy Policy", icon: Shield },
         { to: "/terms", label: "Terms of Service", icon: Shield },
         { to: "/contact", label: "Contact Us", icon: Mail },
         { to: "/docs", label: "Documentation", icon: ExternalLink },
         { to: "/support", label: "Support", icon: Heart },
-    ];
+    ], []);
+
+    // Create memoized particle styles to avoid inline style props
+    const particleStyles = useMemo(() => {
+        return Array.from({ length: 15 }, (_, i) => ({
+            id: i,
+            style: {
+                // eslint-disable-next-line react-hooks/purity
+                left: `${Math.random() * 100}%`,
+                // eslint-disable-next-line react-hooks/purity
+                top: `${Math.random() * 100}%`,
+                // eslint-disable-next-line react-hooks/purity
+                animation: `float ${3 + Math.random() * 4}s infinite ease-in-out`,
+                // eslint-disable-next-line react-hooks/purity
+                animationDelay: `${Math.random() * 5}s`
+            }
+        }));
+    }, []);
 
     return (
         <footer className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-black text-gray-300 overflow-hidden border-t border-gray-800/50">
-            {/* Animated Background Elements */}
+            {/* Animated Background Elements - FIXED: Remove problematic style props */}
             <div className="absolute inset-0 overflow-hidden">
                 {/* Grid Pattern */}
-                <div className="absolute inset-0 opacity-5"
-                     style={{
-                         backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                         backgroundSize: '50px 50px'
-                     }}
-                />
+                <div className="absolute inset-0 opacity-5 bg-grid-pattern" />
 
-                {/* Animated Orbs */}
+                {/* Animated Orbs - Use CSS classes instead of inline styles */}
                 <div className="absolute -top-20 -left-20 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute -bottom-40 right-0 w-80 h-80 bg-gradient-to-tr from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-                <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+                <div className="absolute -bottom-40 right-0 w-80 h-80 bg-gradient-to-tr from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse animation-delay-1000" />
+                <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
 
-                {/* Floating Particles */}
-                {[...Array(15)].map((_, i) => (
+                {/* Floating Particles - Use separate component or memoized styles */}
+                {particleStyles.map((particle) => (
                     <div
-                        key={i}
-                        className="absolute w-1 h-1 bg-white/30 rounded-full"
-                        style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                            animation: `float ${3 + Math.random() * 4}s infinite ease-in-out`,
-                            animationDelay: `${Math.random() * 5}s`
-                        }}
+                        key={particle.id}
+                        className="absolute w-1 h-1 bg-white/30 rounded-full floating-particle"
+                        style={particle.style}
                     />
                 ))}
             </div>
@@ -84,14 +107,14 @@ const Footer = () => {
                             <div className="relative">
                                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl blur-lg opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
                                 <div className="relative w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-blue-500/30 group-hover:shadow-purple-500/40 transition-all duration-500 group-hover:scale-105">
-                                    <span className="text-white font-bold text-2xl">PA</span>
-                                    <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-yellow-400 animate-spin" style={{ animationDuration: '3s' }} />
+                                    <span className="text-white font-bold text-2xl">PPH</span>
+                                    <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-yellow-400 animate-spin animation-duration-3000" />
                                 </div>
                             </div>
                             <div>
                                 <h2 className="text-4xl lg:text-5xl font-bold">
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-                                        Proj-Ariel
+                                        Project- Purple Haze
                                     </span>
                                 </h2>
                                 <p className="text-lg text-gray-400 mt-2">Redefining Digital Experiences</p>
@@ -99,8 +122,8 @@ const Footer = () => {
                         </div>
 
                         <p className="text-gray-400 leading-relaxed text-lg max-w-2xl">
-                            We're pioneering the next generation of interactive tools and platforms.
-                            Join thousands of creators building extraordinary digital experiences.
+                            We're pioneering the next generation of competitive e-sports gamers we are the future of
+                            competitive gaming. we stand with gamers for gamers
                         </p>
 
                         {/* Social Links */}
@@ -173,11 +196,11 @@ const Footer = () => {
                             </div>
                             <div className="text-center p-4 bg-gray-900/30 rounded-xl border border-gray-800/50">
                                 <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">500+</div>
-                                <div className="text-xs text-gray-400 mt-1">Projects</div>
+                                <div className="text-xs text-gray-400 mt-1">Accounts Created</div>
                             </div>
                             <div className="text-center p-4 bg-gray-900/30 rounded-xl border border-gray-800/50">
-                                <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">99%</div>
-                                <div className="text-xs text-gray-400 mt-1">Satisfaction</div>
+                                <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">20</div>
+                                <div className="text-xs text-gray-400 mt-1">Tournaments to date</div>
                             </div>
                         </div>
                     </div>
@@ -228,24 +251,6 @@ const Footer = () => {
                             ))}
                         </div>
                     </div>
-
-                    {/* Tech Stack */}
-                    <div>
-                        <div className="flex items-center gap-3 mb-6">
-                            <Zap className="w-5 h-5 text-yellow-400" />
-                            <h3 className="text-lg font-bold text-white">Powered By</h3>
-                        </div>
-                        <div className="grid grid-cols-3 gap-3">
-                            {['React', 'TypeScript', 'Tailwind', 'Node.js', 'Vite', 'PostgreSQL'].map((tech) => (
-                                <div
-                                    key={tech}
-                                    className="text-center p-3 rounded-lg bg-gray-900/30 border border-gray-800/50 hover:border-yellow-500/50 transition-all duration-300 group"
-                                >
-                                    <div className="text-xs font-semibold text-gray-400 group-hover:text-yellow-400">{tech}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
                 </div>
 
                 {/* Divider with Gradient */}
@@ -270,7 +275,7 @@ const Footer = () => {
                             </div>
                             <div>
                                 <p className="text-gray-400">
-                                    © {new Date().getFullYear()} <span className="font-semibold text-white">Proj-Ariel</span>. All rights reserved.
+                                    © {new Date().getFullYear()} <span className="font-semibold text-white">project-purplehaze</span>. All rights reserved.
                                 </p>
                                 <p className="text-sm text-gray-500 mt-1">
                                     Made with <Heart className="inline w-3 h-3 text-red-500 fill-current" /> worldwide
@@ -286,9 +291,6 @@ const Footer = () => {
                         </div>
                         <div className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-900/30 to-purple-800/20 border border-purple-800/30 text-sm font-medium text-purple-300">
                             🔐 Secure & Reliable
-                        </div>
-                        <div className="px-4 py-2 rounded-full bg-gradient-to-r from-green-900/30 to-green-800/20 border border-green-800/30 text-sm font-medium text-green-300">
-                            🌐 Open Source
                         </div>
                     </div>
 
@@ -310,14 +312,6 @@ const Footer = () => {
                     Need help? Chat with us
                 </div>
             </button>
-
-            {/* CSS for floating animation */}
-            <style jsx>{`
-                @keyframes float {
-                    0%, 100% { transform: translateY(0) translateX(0); }
-                    50% { transform: translateY(-20px) translateX(10px); }
-                }
-            `}</style>
         </footer>
     );
 };

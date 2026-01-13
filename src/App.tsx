@@ -15,9 +15,10 @@ import {SignIn} from "@/pages/sign-in/SignIn.tsx";
 import {SignUp} from "@/pages/sign-up/SignUp.tsx";
 import {ForgotPassword} from "@/pages/forgot-password/ForgotPassword.tsx";
 import {ResetPassword} from "@/pages/reset-password/ResetPassword.tsx";
-import {Dashboard} from "@/pages/dashboard/Dashboard.tsx";
+import {Profile} from "@/pages/profile/Profile.tsx";
 import {ProtectedRoute} from "@/lib/ProtectedRoutes.tsx";
 import { ThemeProvider } from "./components/theme-provider/theme-provider";
+import {Dashboard} from "@/pages/dashboard/Dashboard.tsx";
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
                         }
                     >
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/profile" element={<Profile/>} />
                     </Route>
                     {/* ❌ 404 */}
                     <Route path="*" element={<NotFound />} />

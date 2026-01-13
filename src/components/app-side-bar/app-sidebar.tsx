@@ -4,7 +4,7 @@ import {
     Settings,
     User,
     LogOut,
-    HelpCircle
+    HelpCircle, LayoutDashboard
 } from "lucide-react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
@@ -30,10 +30,18 @@ import { Button } from "@/components/ui/button"
 
 // Menu items with icons
 const navItems = [
+
     {
-        title: "Dashboard",
-        url: "/dashboard",
-        icon: Home,
+        title:"Dashboard",
+        url:"/dashboard",
+        icon:LayoutDashboard,
+        badge:null
+
+    },
+    {
+        title: "profile",
+        url: "/profile",
+        icon: User,
         badge: null
     },
     {
@@ -202,6 +210,22 @@ export function AppSidebar() {
                                             <span className="font-medium text-sm">Help Center</span>
                                         )}
                                     </Link>
+
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    asChild
+                                    tooltip={state === "collapsed" ? "Help" : undefined}
+                                    onClick={handleNavClick} // Add click handler to close mobile sidebar
+                                >
+                                    <Link to="/">
+                                        <Home className="h-4 w-4" />
+                                        {state === "expanded" && (
+                                            <span className="font-medium text-sm">HomePage</span>
+                                        )}
+                                    </Link>
+
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>

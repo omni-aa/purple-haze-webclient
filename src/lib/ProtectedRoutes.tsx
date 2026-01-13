@@ -30,7 +30,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         return <Navigate to={ROUTE_PATHS.PUBLIC.MAINPAGE} replace state={{ from: location }} />;
     }
 
-    // If token exists but trying to access auth pages, redirect to dashboard
+    // If token exists but trying to access auth pages, redirect to profile
     if (token && isPublicRoute) {
         return <Navigate to={ROUTE_PATHS.APP.DASHBOARD} replace />;
     }
