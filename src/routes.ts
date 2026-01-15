@@ -7,6 +7,9 @@ export const ROUTE_PATHS = {
         PRIVACY: "/privacy-policy",
         BLOG: "/blog",
         FEATURES: "/features",
+        TOURNAMENTNEWS: "/tournament-news",
+        NEWSUPDATES: "/news-updates",
+
     },
     APP: {
         DASHBOARD: "/dashboard",

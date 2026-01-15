@@ -19,6 +19,11 @@ import {Profile} from "@/pages/profile/Profile.tsx";
 import {ProtectedRoute} from "@/lib/ProtectedRoutes.tsx";
 import { ThemeProvider } from "./components/theme-provider/theme-provider";
 import {Dashboard} from "@/pages/dashboard/Dashboard.tsx";
+import {Features} from "@/pages/features/page.tsx";
+import {TournamentNews} from "@/pages/tournament-news/page.tsx";
+import {About} from "@/pages/about/page.tsx";
+import {NewsUpdates} from "@/pages/news-updates/page.tsx";
+import PrivacyPolicyPage from "@/pages/privacy-page/Privacy-Page.tsx";
 
 
 function App() {
@@ -34,17 +39,20 @@ function App() {
                         <Route path={ROUTE_PATHS.AUTH.SIGN_UP} element={<SignUp />} />
                         <Route path={ROUTE_PATHS.AUTH.FORGOT_PASSWORD} element={<ForgotPassword />} />
                         <Route path={ROUTE_PATHS.AUTH.RESET_PASSWORD} element={<ResetPassword />} />
-                        <Route path={"/contact-us"} element={<ContactUs/>}/>
+                        <Route path={ROUTE_PATHS.PUBLIC.CONTACT} element={<ContactUs/>}/>
+                        <Route path={ROUTE_PATHS.PUBLIC.FEATURES} element={<Features/>}/>`
+                        <Route path={ROUTE_PATHS.PUBLIC.TOURNAMENTNEWS} element={<TournamentNews/>}/>
+                        <Route path={ROUTE_PATHS.PUBLIC.ABOUT} element={<About/>}/>
+                        <Route path={ROUTE_PATHS.PUBLIC.NEWSUPDATES} element={<NewsUpdates/>}/>
+                        <Route path={ROUTE_PATHS.PUBLIC.PRIVACY} element={<PrivacyPolicyPage/>}/>
                     </Route>
 
-                    {/* 🔐 PROTECTED APP (Sidebar + Header) */}
-                    <Route
-                        element={
-                            <ProtectedRoute>
-                                <AppLayout />
-                            </ProtectedRoute>
-                        }
-                    >
+                    {/* 🔐 PROTECTED APPDashboard (Sidebar + Header) */}
+                    <Route element={
+                        <ProtectedRoute>
+                            <AppLayout />
+                        </ProtectedRoute>}>
+
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/profile" element={<Profile/>} />
                     </Route>

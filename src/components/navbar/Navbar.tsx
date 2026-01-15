@@ -639,7 +639,6 @@ const Navbar = () => {
     ];
 
     const secondaryNavigation: NavigationItem[] = [
-        { path: ROUTE_PATHS.PUBLIC?.BLOG || "/blog", label: "Blog", icon: Newspaper },
         { path: ROUTE_PATHS.PUBLIC?.CONTACT || "/contact", label: "Contact", icon: Contact },
         { path: ROUTE_PATHS.PUBLIC?.PRIVACY || "/privacy", label: "Privacy", icon: HatGlasses },
     ];
