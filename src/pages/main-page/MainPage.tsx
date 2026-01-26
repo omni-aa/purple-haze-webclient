@@ -57,18 +57,23 @@ export default function MainPage() {
     // Memoize static data
     const features = useMemo(() => [
         { icon: Zap, title: "Lightning Fast", description: "Lighting fast Social Media Platform for gamers", color: "from-yellow-500 to-orange-500" },
+        { icon: Zap, title: "Lightning Fast", description: "Lighting fast Social Media Platform for gamers", color: "from-yellow-500 to-orange-500" },
+        { icon: Zap, title: "Lightning Fast", description: "Lighting fast Social Media Platform for gamers", color: "from-yellow-500 to-orange-500" },
+        { icon: Zap, title: "Lightning Fast", description: "Lighting fast Social Media Platform for gamers", color: "from-yellow-500 to-orange-500" },
+        { icon: Zap, title: "Lightning Fast", description: "Lighting fast Social Media Platform for gamers", color: "from-yellow-500 to-orange-500" },
+        { icon: Zap, title: "Lightning Fast", description: "Lighting fast Social Media Platform for gamers", color: "from-yellow-500 to-orange-500" },
     ], []);
 
-    /*const testimonials = useMemo(() => [
-        { name: "Alex Johnson", role: "CTO at TechFlow", content: "Proj-Ariel revolutionized our workflow. 10x productivity boost!", avatar: "AJ", rating: 5 },
-        { name: "Maria Rodriguez", role: "Product Lead", content: "The intuitive interface and powerful features are unmatched.", avatar: "MR", rating: 5 },
-        { name: "David Chen", role: "Engineering Director", content: "Implementation was seamless. Our team adapted instantly.", avatar: "DC", rating: 5 },
+    const testimonials = useMemo(() => [
+        { name: "Alex Johnson", role: "Valorant Pro Player", content: "I Love Valorant", avatar: "AJ", rating: 5 },
+        { name: "Peter John", role: "Valorant Pro Player", content: "I Love Valorant", avatar: "AJ", rating: 5 },
+        { name: "Iris Chan", role: "Valorant Pro Player", content: "I Love Valorant", avatar: "AJ", rating: 5 },
     ], []);
-*/
+
     const stats = useMemo(() => [
         { value: "10K+", label: "Active Users", icon: Users },
-        { value: "500K+", label: "Projects Created", icon: Rocket },
-        { value: "99.9%", label: "Uptime", icon: ShieldCheck },
+        { value: "500K$", label: "In Prizes Won", icon: Rocket },
+        { value: "Secure Platform", label: "Security", icon: ShieldCheck },
         { value: "24/7", label: "Support", icon: Clock },
     ], []);
 
@@ -217,7 +222,7 @@ export default function MainPage() {
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 mb-12">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols- gap-4 mb-12 ">
                         {techStack.map((tech, index) => {
                             const delayClass = `delay-[${index * 50}ms]`;
                             return (
@@ -246,40 +251,42 @@ export default function MainPage() {
                         <h2 className="text-4xl sm:text-5xl font-bold mt-4">
                             Trusted by{" "}
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
-                                Industry Leaders
+                                Pro Players
                             </span>
                         </h2>
                     </div>
 
-                    {/*<div className="grid grid-cols-1 md:grid-cols-3 gap-8">*/}
-                    {/*    {testimonials.map((testimonial, index) => {*/}
-                    {/*        const delayClass = `delay-[${index * 200}ms]`;*/}
-                    {/*        return (*/}
-                    {/*            <Card*/}
-                    {/*                key={testimonial.name}*/}
-                    {/*                className={`bg-background/50 backdrop-blur-sm border-border/50 transition-all duration-500 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-7'} ${delayClass}`}*/}
-                    {/*            >*/}
-                    {/*                <CardContent className="p-8">*/}
-                    {/*                    <div className="flex items-center mb-6">*/}
-                    {/*                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">*/}
-                    {/*                            {testimonial.avatar}*/}
-                    {/*                        </div>*/}
-                    {/*                        <div className="ml-4">*/}
-                    {/*                            <h4 className="font-bold text-lg">{testimonial.name}</h4>*/}
-                    {/*                            <p className="text-foreground/60 text-sm">{testimonial.role}</p>*/}
-                    {/*                        </div>*/}
-                    {/*                    </div>*/}
-                    {/*                    <p className="text-foreground/80 mb-4 italic">"{testimonial.content}"</p>*/}
-                    {/*                    <div className="flex">*/}
-                    {/*                        {[...Array(testimonial.rating)].map((_, i) => (*/}
-                    {/*                            <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />*/}
-                    {/*                        ))}*/}
-                    {/*                    </div>*/}
-                    {/*                </CardContent>*/}
-                    {/*            </Card>*/}
-                    {/*        );*/}
-                    {/*    })}*/}
-                    {/*</div>*/}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {testimonials.map((testimonial, index) => {
+                            const delayClass = `delay-[${index * 200}ms]`;
+                            return (
+                                <Card
+                                    key={testimonial.name}
+                                    className={`bg-background/50 backdrop-blur-sm border-border/50 transition-all duration-500 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-7'} ${delayClass}`}
+                                >
+                                    <CardContent className="p-8">
+                                        <div className="flex items-center mb-6">
+                                            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                                                {testimonial.avatar}
+                                            </div>
+                                            <div className="ml-4">
+                                                <h4 className="font-bold text-lg">{testimonial.name}</h4>
+                                                <p className="text-foreground/60 text-sm">{testimonial.role}</p>
+
+
+                                            </div>
+                                        </div>
+                                        <p className="text-foreground/80 mb-4 italic">"{testimonial.content}"</p>
+                                        <div className="flex">
+                                            {[...Array(testimonial.rating)].map((_, i) => (
+                                                <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
+                                            ))}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            );
+                        })}
+                    </div>
                 </div>
             </section>
 

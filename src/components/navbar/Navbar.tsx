@@ -32,7 +32,7 @@ import {
     type LucideIcon,
 } from "lucide-react";
 
-import { motion, AnimatePresence } from "framer-motion";
+import {  AnimatePresence } from "framer-motion";
 import { ModeToggle } from "@/components/dark-mode-toggle.tsx";
 import { ROUTE_PATHS } from "@/routes.ts";
 import { Button } from "@/components/ui/button";
@@ -566,7 +566,6 @@ const Navbar = () => {
     // Handle scroll with throttling
     useEffect(() => {
         let ticking = false;
-        let lastScrollY = 0;
 
         const onScroll = () => {
             if (!ticking) {

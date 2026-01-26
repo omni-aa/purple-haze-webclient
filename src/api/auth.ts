@@ -1,20 +1,21 @@
 ﻿import axios from "axios";
 
 const API = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "http://127.0.0.1:3000",
 });
 
 export const signup = (username: string, email: string, password: string) =>
-    API.post("/signup", { username, email, password });
+    API.post("/auth/sign-up", { username, email, password }); // <-- leading /
 
 export const signin = (email: string, password: string) =>
-    API.post("/signin", { email, password });
+    API.post("/auth/sign-in", { email, password });
 
 export const passwordResetRequest = (email: string) =>
-    API.post("/password-reset-request", { email });
+    API.post("/auth/password-reset-request", { email });
 
 export const passwordReset = (token: string, newPassword: string) =>
-    API.post("/password-reset", { token, newPassword });
+    API.post("/auth/password-reset", { token, newPassword });
+
 
 export const getMe = (token: string) =>
-    API.get("/me", { headers: { Authorization: `Bearer ${token}` } });
+    API.get("/dashboard/me", { headers: { Authorization: `Bearer ${token}` } });

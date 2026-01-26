@@ -1,8 +1,6 @@
 ﻿import {
-    Github,
     Mail,
-    Twitch,
-    Twitter,
+
     ExternalLink,
     ArrowRight,
     Heart,
@@ -14,7 +12,7 @@
     Star,
     Zap,
     Palette,
-    Youtube
+    ArrowUp, Youtube, Twitter, Twitch
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useMemo } from "react";
@@ -300,7 +298,7 @@ const Footer = () => {
                         className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-900/50 border border-gray-800 hover:border-blue-500/50 hover:bg-gray-800/50 transition-all duration-300"
                     >
                         <span className="text-sm text-gray-400 group-hover:text-white">Back to Top</span>
-                        <ArrowRight size={14} className="text-gray-500 group-hover:text-blue-400 rotate-90" />
+                        <ArrowUp size={14} className="text-gray-500 group-hover:text-blue-400 rotate-90" />
                     </button>
                 </div>
             </div>
